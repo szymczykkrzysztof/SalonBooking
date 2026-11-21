@@ -16,3 +16,6 @@ POST {{host}}/services
 Content-Type: application/json
 
 { "name": "", "category": "Haircut", "durationMinutes": 20, "price": 0 }
+
+### UC-06 Szczegóły usługi (wklej id z odpowiedzi UC-07)
+GET {{host}}/services/7413f3c2-1252-4940-bdbe-199a01359e99
