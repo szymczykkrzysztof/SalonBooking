@@ -24,7 +24,17 @@ public sealed class ServicesController : ApiControllerBase{
         var result = await handler.Handle(command, ct);
 
         return result.IsSuccess
-            ? Created($"/api/services/{result.Value}", new CreateServiceResponse(result.Value))
+            ? CreatedAtAction(nameof(GetById), new { id = result.Value }, new CreateServiceResponse(result.Value))
             : HandleFailure(result.Error);
+    }
+    
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType<ServiceResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(Guid id, [FromServices] GetServiceByIdHandler handler, CancellationToken ct)
+    {
+        var result = await handler.Handle(new GetServiceByIdQuery(id), ct);
+
+        return result.IsSuccess ? Ok(result.Value) : HandleFailure(result.Error);
     }
 }
