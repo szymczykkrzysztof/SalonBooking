@@ -1,8 +1,11 @@
 using System.Text.Json.Serialization;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SalonBooking.Api.Application.Abstractions;
+using SalonBooking.Api.Application.ServiceCatalog;
 using SalonBooking.Api.Common;
 using SalonBooking.Api.Infrastructure;
+using SalonBooking.Api.Infrastructure.ServiceCatalog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -16,6 +19,9 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>();
 builder.Services.AddOpenApi();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<CreateServiceHandler>();
 
 var app = builder.Build();
 
