@@ -1,0 +1,18 @@
+@host = http://localhost:5295/api
+
+### UC-07 Dodanie usługi
+POST {{host}}/services
+Content-Type: application/json
+
+{
+  "name": "Strzyżenie damskie",
+  "category": "Haircut",
+  "durationMinutes": 60,
+  "price": 120.00
+}
+
+### UC-07 Błędne dane
+POST {{host}}/services
+Content-Type: application/json
+
+{ "name": "", "category": "Haircut", "durationMinutes": 20, "price": 0 }
