@@ -24,7 +24,7 @@ public sealed class ServicesController : ApiControllerBase{
         var result = await handler.Handle(command, ct);
 
         return result.IsSuccess
-            ? Created($"/services/{result.Value}", new CreateServiceResponse(result.Value))
+            ? Created($"/api/services/{result.Value}", new CreateServiceResponse(result.Value))
             : HandleFailure(result.Error);
     }
 }
