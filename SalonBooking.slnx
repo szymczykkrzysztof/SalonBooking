@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SalonBooking.Api/SalonBooking.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SalonBooking.IntegrationTests/SalonBooking.IntegrationTests.csproj" />
+    <Project Path="tests/SalonBooking.UnitTests/SalonBooking.UnitTests.csproj" />
+  </Folder>
+</Solution>
