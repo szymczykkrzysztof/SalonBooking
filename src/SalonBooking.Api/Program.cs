@@ -22,6 +22,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<CreateServiceHandler>();
 builder.Services.AddScoped<GetServiceByIdHandler>();
+builder.Services.AddScoped<GetServicesHandler>();
 
 var app = builder.Build();
 
