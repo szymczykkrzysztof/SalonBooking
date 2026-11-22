@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SalonBooking.Api.Application.ServiceCatalog;
+using SalonBooking.Api.Domain.ServiceCatalog;
 
 namespace SalonBooking.Api.Controllers;
 
@@ -36,5 +37,16 @@ public sealed class ServicesController : ApiControllerBase{
         var result = await handler.Handle(new GetServiceByIdQuery(id), ct);
 
         return result.IsSuccess ? Ok(result.Value) : HandleFailure(result.Error);
+    }
+    
+    [HttpGet]
+    [ProducesResponseType<IReadOnlyList<ServiceResponse>>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] ServiceCategory? category,
+        [FromServices] GetServicesHandler handler,
+        CancellationToken ct)
+    {
+        var services = await handler.Handle(new GetServicesQuery(category), ct);
+        return Ok(services);
     }
 }
