@@ -19,3 +19,12 @@ Content-Type: application/json
 
 ### UC-06 Szczegóły usługi (wklej id z odpowiedzi UC-07)
 GET {{host}}/services/7413f3c2-1252-4940-bdbe-199a01359e99
+
+### UC-05 Lista usług
+GET {{host}}/services
+
+### UC-05 Lista z filtrem
+GET {{host}}/services?category=Haircut
+
+### UC-05 Nieznana kategoria (oczekiwane 400)
+GET {{host}}/services?category=Xyz
