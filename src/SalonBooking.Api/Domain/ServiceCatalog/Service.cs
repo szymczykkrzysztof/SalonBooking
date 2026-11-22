@@ -9,12 +9,13 @@ public sealed class Service : Entity
     private Service()
     {
     }
+
     public string Name { get; private set; } = null!;
     public ServiceCategory Category { get; private set; }
     public TimeSpan DefaultDuration { get; private set; }
     public Money DefaultPrice { get; private set; } = null!;
     public bool IsActive { get; private set; }
-    
+
     public static Result<Service> Create(string name, ServiceCategory category, TimeSpan duration, Money price)
     {
         var error = Validate(name, duration, price);
@@ -31,6 +32,7 @@ public sealed class Service : Entity
             IsActive = true
         });
     }
+
     private static Error? Validate(string name, TimeSpan duration, Money price)
     {
         if (string.IsNullOrWhiteSpace(name) || name.Trim().Length > NameMaxLength)
@@ -40,5 +42,19 @@ public sealed class Service : Entity
         if (price.Amount <= 0)
             return ServiceErrors.InvalidPrice;
         return null;
+    }
+
+    public Result Update(string name, ServiceCategory category, TimeSpan duration, Money price)
+    {
+        var error = Validate(name, duration, price);
+        if (error is not null)
+            return Result.Failure(error);
+
+        Name = name.Trim();
+        Category = category;
+        DefaultDuration = duration;
+        DefaultPrice = price;
+
+        return Result.Success();
     }
 }
