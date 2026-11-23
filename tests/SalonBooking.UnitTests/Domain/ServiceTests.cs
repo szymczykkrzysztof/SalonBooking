@@ -66,4 +66,34 @@ public class ServiceTests
 
         Assert.Equal(ServiceErrors.InvalidPrice, CreateWith(price: zero).Error);
     }
+
+    [Fact]
+    public void Update_WithValidData_ChangesFields()
+    {
+        // Arrange
+        var service = CreateWith().Value;
+        var newPrice = Money.Create(150m, "PLN").Value;
+        // Act
+        var result = service.Update("Strzyżenie męskie", ServiceCategory.Haircut, TimeSpan.FromMinutes(30), newPrice);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal("Strzyżenie męskie", service.Name);
+        Assert.Equal(TimeSpan.FromMinutes(30), service.DefaultDuration);
+        Assert.Equal(150m, service.DefaultPrice.Amount);
+    }
+    [Fact]
+    public void Update_WithInvalidDuration_FailsAndKeepsOldValues()
+    {
+        // Arrange
+        var service = CreateWith(name: "Strzyżenie damskie", minutes: 60).Value;
+
+        // Act
+        var result = service.Update("Nowa nazwa", ServiceCategory.Haircut, TimeSpan.FromMinutes(20), Price);
+
+        // Assert
+        Assert.Equal(ServiceErrors.InvalidDuration, result.Error);
+        Assert.Equal("Strzyżenie damskie", service.Name);       
+        Assert.Equal(TimeSpan.FromMinutes(60), service.DefaultDuration);
+    }
 }

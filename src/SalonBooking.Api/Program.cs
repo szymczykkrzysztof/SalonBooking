@@ -23,6 +23,7 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<CreateServiceHandler>();
 builder.Services.AddScoped<GetServiceByIdHandler>();
 builder.Services.AddScoped<GetServicesHandler>();
+builder.Services.AddScoped<UpdateServiceHandler>();
 
 var app = builder.Build();
 

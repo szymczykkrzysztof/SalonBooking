@@ -49,4 +49,26 @@ public sealed class ServicesController : ApiControllerBase{
         var services = await handler.Handle(new GetServicesQuery(category), ct);
         return Ok(services);
     }
+    
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(
+        Guid id,
+        UpdateServiceRequest request,
+        [FromServices] IValidator<UpdateServiceCommand> validator,
+        [FromServices] UpdateServiceHandler handler,
+        CancellationToken ct)
+    {
+        var command = new UpdateServiceCommand(id, request.Name, request.Category, request.DurationMinutes, request.Price);
+
+        var validation = await validator.ValidateAsync(command, ct);
+        if (!validation.IsValid)
+            return ValidationFailed(validation);
+
+        var result = await handler.Handle(command, ct);
+
+        return result.IsSuccess ? NoContent() : HandleFailure(result.Error);
+    }
 }
