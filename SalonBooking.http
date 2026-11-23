@@ -28,3 +28,9 @@ GET {{host}}/services?category=Haircut
 
 ### UC-05 Nieznana kategoria (oczekiwane 400)
 GET {{host}}/services?category=Xyz
+
+### UC-08 Edycja usługi (wklej id)
+PUT {{host}}/services/7413f3c2-1252-4940-bdbe-199a01359e99
+Content-Type: application/json
+
+{ "name": "Strzyżenie premium", "category": "Styling", "durationMinutes": 90, "price": 200.00 }
